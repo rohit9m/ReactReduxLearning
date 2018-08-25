@@ -6,7 +6,6 @@ import CourseForm from './CourseForm';
 
 function setup(saving) {
   const props = {
-    //allAuthors: [],
     course: {},
     saving: saving,
     errors: {},
