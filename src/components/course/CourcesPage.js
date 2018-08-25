@@ -2,53 +2,39 @@ import React, { PropTypes } from 'react';
 import {connect} from 'react-redux';  
 import {bindActionCreators} from 'redux';
 import * as courseActions from '../../actions/courseAction';
+import CourseList from './CourseList';
+import {browserHistory} from 'react-router';
+import {push} from 'react-router-redux';
+
 
 class CoursePage extends React.Component {
 
   //Constructor that is responsible to initialize the state and call our bind functions
   constructor(props, context) {
     super(props, context);
-
-    this.state={
-      course: {title: " "}
-    };
-
-    this.onTitleChange = this.onTitleChange.bind(this);
-    this.onClickSave = this.onClickSave.bind(this);
-  }
-
-  // Child functions that will be called by Render Function
-  onTitleChange(event){
-    const course= this.state.course;
-    course.title= event.target.value;
-    this.setState({course: course});
-  }
-
-  onClickSave(){
-    //this.props.createCourse(this.state.course);
-    this.props.actions.createCourse(this.state.course); // After calling a common method for all action the method comes under action
+    this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
   }
 
   courseRow(course,index){
     return <div key={index}>{course.title}</div>;
   }
 
+  redirectToAddCoursePage() {
+    browserHistory.push('/course');
+  }
+
   // Render function where we can call our child components rather than calling the HTML marks ups directly
   render () {
+    const {courses} = this.props;
     return (
       <div>
         <h1>Courses page!</h1>
-        {this.props.courses.map(this.courseRow)}
-        <h2>Add Course</h2>
         <input
-        type="text"
-        onChange={this.onTitleChange}
-        value={this.state.course.title} />
-
-        <input
-        type="submit"
-        value="Save"
-        onClick={this.onClickSave}/>
+          type="submit"
+          value="Add Course"
+          className="btn btn-primary"
+          onClick={this.redirectToAddCoursePage}/>
+        <CourseList courses = {courses}/>
       </div>
     );
   }
